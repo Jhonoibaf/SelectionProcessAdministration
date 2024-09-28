@@ -13,8 +13,8 @@ namespace Recruiters.Infraestructure.Data
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {
         }
-        public DbSet<Candidate> candidates => Set<Candidate>();
-        public DbSet<Candidate> candidateexperiences => Set<Candidate>();
+        public DbSet<Candidate> Candidates => Set<Candidate>();
+        public DbSet<CandidateExperience> CandidateExperiences => Set<CandidateExperience>();
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

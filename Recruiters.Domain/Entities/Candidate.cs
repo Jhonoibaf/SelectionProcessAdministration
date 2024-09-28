@@ -17,7 +17,7 @@ namespace Recruiters.Domain.Entities
         public string Email { get; set; }
         public DateTime InsertDate { get; set; }
         public DateTime? ModifyDate { get; set; }
-        public ICollection<CandidateExperience> CandidateExperiences { get; set; }
+        public ICollection<CandidateExperience> CandidateExperiences { get; set; } = null!;
 
     }
 }

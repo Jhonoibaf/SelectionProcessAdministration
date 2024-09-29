@@ -1,4 +1,7 @@
+using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Recruiters.Application.CandidatesAdministration.Queries;
 using Recruiters.Infraestructure.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,6 +10,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("AplicationDbConection")) 
 );
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(GetCandidateByIdQuery).Assembly));
 
 var app = builder.Build();
 

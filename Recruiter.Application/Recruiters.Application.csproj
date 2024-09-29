@@ -7,12 +7,19 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="CandidatesAdministration\Commands\" />
-    <Folder Include="CandidatesAdministration\Handlers\" />
-    <Folder Include="CandidatesAdministration\Queries\" />
     <Folder Include="ExperiencesAdministration\Commands\" />
     <Folder Include="ExperiencesAdministration\Handlers\" />
     <Folder Include="ExperiencesAdministration\Queries\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="12.4.1" />
+    <PackageReference Include="MediatR.Extensions.FluentValidation.AspNetCore" Version="5.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Recruiter.Infraestructure\Recruiters.Infraestructure.csproj" />
+    <ProjectReference Include="..\Recruiters.Domain\Recruiters.Domain.csproj" />
   </ItemGroup>
 
 </Project>

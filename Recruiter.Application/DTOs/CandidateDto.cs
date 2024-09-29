@@ -1,8 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace SelectionProcessAdministration.Models.ViewModels
+namespace Recruiters.Application.DTOs
 {
-    public class CanditateViewModel
+    public class CandidateDto
     {
         public int IdCandidate { get; set; }
         public string Name { get; set; } = null!;

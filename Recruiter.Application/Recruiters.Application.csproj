@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <Folder Include="ExperiencesAdministration\Commands\" />
-    <Folder Include="ExperiencesAdministration\Handlers\" />
     <Folder Include="ExperiencesAdministration\Queries\" />
   </ItemGroup>
 

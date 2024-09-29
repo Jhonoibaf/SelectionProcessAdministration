@@ -3,9 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Recruiters.Application.CandidatesAdministration.Commands;
 using Recruiters.Application.CandidatesAdministration.Queries;
-using Recruiters.Domain.Entities;
+using Recruiters.Application.DTOs;
 using Recruiters.Infraestructure.Data;
-using SelectionProcessAdministration.Models.ViewModels;
 
 namespace SelectionProcessAdministration.Controllers
 {
@@ -32,21 +31,10 @@ namespace SelectionProcessAdministration.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(CanditateViewModel candidateViewModel)
+        public async Task<IActionResult> CreateCandidate(CandidateDto candidate)
         {
-            var candidate = new Candidate
-            {
-                IdCandidate = candidateViewModel.IdCandidate,
-                Name = candidateViewModel.Name,
-                Surname = candidateViewModel.Surname,
-                Birthdate = candidateViewModel.Birthdate,
-                Email = candidateViewModel.Email,
-                InsertDate = DateTime.Now, 
-                ModifyDate = DateTime.Now 
-            };
-
             var candidateCreated = await _mediator.Send(new CreateCandidateCommand.Command(candidate));
-            return candidateCreated != null ? RedirectToAction(nameof(Index)): View(candidateCreated);
+            return candidateCreated != null ? RedirectToAction(nameof(Index)) : View(candidateCreated);
         }
 
         public async Task<IActionResult> Edit(int id)
@@ -57,7 +45,7 @@ namespace SelectionProcessAdministration.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [FromBody] Candidate candidate)
+        public async Task<IActionResult> EditCandidate(CandidateDto candidate)
         {
             var candidateUpdated = await _mediator.Send(new UpdateCandidateCommand.Command(candidate));
             return candidateUpdated != null ? RedirectToAction(nameof(Index)) : View(candidateUpdated);
@@ -73,19 +61,8 @@ namespace SelectionProcessAdministration.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var candidate = await _context.Candidates.FindAsync(id);
-            if (candidate != null)
-            {
-                _context.Candidates.Remove(candidate);
-            }
-
-            await _context.SaveChangesAsync();
+            await _mediator.Send(new DeleteCadidateCommand.Command(id));
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool CandidateExists(int id)
-        {
-            return _context.Candidates.Any(e => e.IdCandidate == id);
         }
     }
 }

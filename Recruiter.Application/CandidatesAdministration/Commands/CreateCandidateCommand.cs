@@ -1,18 +1,13 @@
 ﻿using MediatR;
-using Microsoft.EntityFrameworkCore;
+using Recruiters.Application.DTOs;
 using Recruiters.Domain.Entities;
 using Recruiters.Infraestructure.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Recruiters.Application.CandidatesAdministration.Commands
 {
     public class CreateCandidateCommand
     {
-        public record Command(Candidate Candidate) : IRequest<Candidate>;
+        public record Command(CandidateDto Candidate) : IRequest<Candidate>;
         public class Handler : IRequestHandler<Command, Candidate>
         {
             private readonly ApplicationDbContext _dbcontext;
@@ -25,21 +20,33 @@ namespace Recruiters.Application.CandidatesAdministration.Commands
             {
                 try
                 {
-                    var candidate = request.Candidate;
-
-                    if (candidate != null)
+                    var candidate = new Candidate
                     {
-                        _dbcontext.Add(candidate);
-                        await _dbcontext.SaveChangesAsync();
-                        return candidate;
+                        IdCandidate = request.Candidate.IdCandidate,
+                        Name = request.Candidate.Name,
+                        Surname = request.Candidate.Surname,
+                        Birthdate = request.Candidate.Birthdate,
+                        Email = request.Candidate.Email,
+                        InsertDate = DateTime.Now,
+                        ModifyDate = DateTime.Now
+                    };
+
+                    if (candidate == null)
+                    {
+                        throw new Exception("Candidate not be create");
                     }
+
+                    _dbcontext.Add(candidate);
+                    await _dbcontext.SaveChangesAsync(cancellationToken);
+                    return candidate;
+
+
                 }
                 catch (Exception ex)
                 {
                     var message = ex.Message;
                     throw new Exception($"{message}");
                 }
-                throw new Exception("Candidate not be create");
             }
         }
 

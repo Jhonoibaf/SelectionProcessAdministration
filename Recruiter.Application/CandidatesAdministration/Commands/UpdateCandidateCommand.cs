@@ -1,18 +1,15 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Recruiters.Application.DTOs;
 using Recruiters.Domain.Entities;
 using Recruiters.Infraestructure.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Recruiters.Application.CandidatesAdministration.Commands
 {
     public class UpdateCandidateCommand
     {
-        public record Command(Candidate candidate) : IRequest<Candidate>;
+        public record Command(CandidateDto candidate) : IRequest<Candidate>;
 
         public class Handler : IRequestHandler<Command, Candidate>
         {
@@ -24,18 +21,31 @@ namespace Recruiters.Application.CandidatesAdministration.Commands
 
             public async Task<Candidate> Handle(Command request, CancellationToken cancellationToken)
             {
-                var candidate = request.candidate;
                 try
                 {
+                    var insertDate = await _dbcontext.Candidates
+                                            .Where(c => c.IdCandidate == request.candidate.IdCandidate)
+                                            .Select(c => c.InsertDate).FirstOrDefaultAsync();
+
+                    var candidate = new Candidate
+                    {
+                        IdCandidate = request.candidate.IdCandidate,
+                        Name = request.candidate.Name,
+                        Surname = request.candidate.Surname,
+                        Birthdate = request.candidate.Birthdate,
+                        Email = request.candidate.Email,
+                        InsertDate = insertDate,
+                        ModifyDate = DateTime.Now
+                    };
                     _dbcontext.Update(candidate);
                     await _dbcontext.SaveChangesAsync();
+                    return candidate;
                 }
                 catch (Exception ex)
                 {
                     var message = ex.Message;
                     throw new Exception($"{message}");
                 }
-                throw new Exception("Candidate not be create");
             }
         }
     }

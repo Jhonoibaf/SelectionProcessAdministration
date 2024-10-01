@@ -27,7 +27,7 @@ namespace Recruiters.Application.ExperiencesAdministration.Commands
                 try
                 {
                     var existingCandidateExperience = await _dbcontext.CandidateExperiences
-                    .FirstOrDefaultAsync(ce => ce.IdCandidateExperience == request.candidate.IdCandidate);
+                    .FirstOrDefaultAsync(ce => ce.IdCandidateExperience == request.candidate.IdCandidateExperience);
 
                     if (existingCandidateExperience == null)
                         throw new Exception("Candidate experience not found");

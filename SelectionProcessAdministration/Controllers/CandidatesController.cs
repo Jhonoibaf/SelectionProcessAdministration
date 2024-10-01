@@ -1,16 +1,13 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Recruiters.Application.CandidatesAdministration.Commands;
 using Recruiters.Application.CandidatesAdministration.Queries;
 using Recruiters.Application.DTOs;
-using Recruiters.Infraestructure.Data;
 
 namespace SelectionProcessAdministration.Controllers
 {
-    public class CandidatesController(ApplicationDbContext context, IMediator mediator) : Controller
+    public class CandidatesController(IMediator mediator) : Controller
     {
-        private readonly ApplicationDbContext _context = context;
         private readonly IMediator _mediator = mediator;
 
         public async Task<IActionResult> Index()

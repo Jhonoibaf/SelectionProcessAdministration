@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Recruiters.Domain.Entities;
+using Recruiters.Infraestructure.Models;
 
 namespace Recruiters.Infraestructure.Data
 {
@@ -8,22 +8,22 @@ namespace Recruiters.Infraestructure.Data
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {
         }
-        public DbSet<Candidate> Candidates => Set<Candidate>();
-        public DbSet<CandidateExperience> CandidateExperiences => Set<CandidateExperience>();
+        public DbSet<CandidateModel> Candidates => Set<CandidateModel>();
+        public DbSet<CandidateExperienceModel> CandidateExperiences => Set<CandidateExperienceModel>();
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Candidate>().HasKey(p => p.IdCandidate);
-            modelBuilder.Entity<Candidate>().Property(p => p.Surname).HasMaxLength(150);
-            modelBuilder.Entity<Candidate>().Property(p => p.Name).HasMaxLength(50);
-            modelBuilder.Entity<Candidate>().Property(p => p.Email).HasMaxLength(250);
+            modelBuilder.Entity<CandidateModel>().HasKey(p => p.IdCandidate);
+            modelBuilder.Entity<CandidateModel>().Property(p => p.Surname).HasMaxLength(150);
+            modelBuilder.Entity<CandidateModel>().Property(p => p.Name).HasMaxLength(50);
+            modelBuilder.Entity<CandidateModel>().Property(p => p.Email).HasMaxLength(250);
 
-            modelBuilder.Entity<CandidateExperience>().HasKey(p => p.IdCandidateExperience);
-            modelBuilder.Entity<CandidateExperience>().Property(p => p.Company).HasMaxLength(100);
-            modelBuilder.Entity<CandidateExperience>().Property(p => p.Job).HasMaxLength(100);
-            modelBuilder.Entity<CandidateExperience>().Property(p => p.Description).HasMaxLength(4000);
-            modelBuilder.Entity<CandidateExperience>().Property(p => p.Salary).HasPrecision(8,2);
+            modelBuilder.Entity<CandidateExperienceModel>().HasKey(p => p.IdCandidateExperience);
+            modelBuilder.Entity<CandidateExperienceModel>().Property(p => p.Company).HasMaxLength(100);
+            modelBuilder.Entity<CandidateExperienceModel>().Property(p => p.Job).HasMaxLength(100);
+            modelBuilder.Entity<CandidateExperienceModel>().Property(p => p.Description).HasMaxLength(4000);
+            modelBuilder.Entity<CandidateExperienceModel>().Property(p => p.Salary).HasPrecision(8,2);
         }
 
     }

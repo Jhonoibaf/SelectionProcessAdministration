@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Recruiters.Domain.Entities;
 using Recruiters.Infraestructure.Data;
@@ -12,14 +13,20 @@ namespace Recruiters.Application.CandidatesAdministration.Queries
         public class Handler : IRequestHandler<Query, Candidate>
         {
             private readonly ApplicationDbContext _dbcontext;
-            public Handler(ApplicationDbContext dbcontext)
+            private readonly IMapper _mapper;
+            public Handler(ApplicationDbContext dbcontext , IMapper mapper)
             {
                 _dbcontext = dbcontext;
+                _mapper = mapper;
             }
             
             public async Task<Candidate> Handle(Query request, CancellationToken cancellationToken)
             {
-                var candidate = await _dbcontext.Candidates.FindAsync(request.Id);
+                var candidateModel = await _dbcontext.Candidates
+                            .Include(c => c.CandidateExperiences)
+                            .FirstOrDefaultAsync(c => c.IdCandidate == request.Id);
+
+                var candidate = _mapper.Map<Candidate>(candidateModel);
                 return candidate == null ? throw new Exception("Candidate not found") : candidate;
             }
         }

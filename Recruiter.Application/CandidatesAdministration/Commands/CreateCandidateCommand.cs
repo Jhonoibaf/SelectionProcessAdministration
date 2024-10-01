@@ -1,7 +1,9 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using Recruiters.Application.DTOs;
 using Recruiters.Domain.Entities;
 using Recruiters.Infraestructure.Data;
+using Recruiters.Infraestructure.Models;
 
 namespace Recruiters.Application.CandidatesAdministration.Commands
 {
@@ -11,8 +13,10 @@ namespace Recruiters.Application.CandidatesAdministration.Commands
         public class Handler : IRequestHandler<Command, Candidate>
         {
             private readonly ApplicationDbContext _dbcontext;
-            public Handler(ApplicationDbContext dbcontext)
+            private readonly IMapper _mapper;
+            public Handler(ApplicationDbContext dbcontext , IMapper mapper)
             {
+                _mapper = mapper;
                 _dbcontext = dbcontext;
             }
 
@@ -20,27 +24,14 @@ namespace Recruiters.Application.CandidatesAdministration.Commands
             {
                 try
                 {
-                    var candidate = new Candidate
-                    {
-                        IdCandidate = request.Candidate.IdCandidate,
-                        Name = request.Candidate.Name,
-                        Surname = request.Candidate.Surname,
-                        Birthdate = request.Candidate.Birthdate,
-                        Email = request.Candidate.Email,
-                        InsertDate = DateTime.Now,
-                        ModifyDate = DateTime.Now
-                    };
+                    var candidateModel = new CandidateModel();
+                    var candidateToCreate = _mapper.Map(request.Candidate, candidateModel);
+                    if (candidateToCreate == null) throw new Exception("Candidate not be create");
 
-                    if (candidate == null)
-                    {
-                        throw new Exception("Candidate not be create");
-                    }
-
-                    _dbcontext.Add(candidate);
+                    _dbcontext.Add(candidateToCreate);
                     await _dbcontext.SaveChangesAsync(cancellationToken);
-                    return candidate;
-
-
+                    var candidateCreated = _mapper.Map<Candidate>(candidateToCreate);
+                    return candidateCreated;
                 }
                 catch (Exception ex)
                 {

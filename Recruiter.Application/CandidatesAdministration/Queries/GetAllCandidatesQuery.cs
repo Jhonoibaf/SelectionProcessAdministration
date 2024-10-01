@@ -1,12 +1,8 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Recruiters.Domain.Entities;
 using Recruiters.Infraestructure.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Recruiters.Application.CandidatesAdministration.Queries
 {
@@ -17,16 +13,19 @@ namespace Recruiters.Application.CandidatesAdministration.Queries
         public class Handler : IRequestHandler<Query, List<Candidate>>
         {
             private readonly ApplicationDbContext _dbcontext;
-            public Handler(ApplicationDbContext dbcontext)
+            private readonly IMapper _mapper;
+
+            public Handler(ApplicationDbContext dbcontext, IMapper mapper)
             {
                 _dbcontext = dbcontext;
+                _mapper = mapper;
             }
 
             public async Task<List<Candidate>>Handle(Query request, CancellationToken cancellationToken)
             {
-                var candidates = await _dbcontext.Candidates.Include(c => c.CandidateExperiences).ToListAsync();
-
-                return candidates == null ? throw new Exception("Candidate not found") : candidates;
+                var candidatesModel = await _dbcontext.Candidates.Include(c => c.CandidateExperiences).ToListAsync();
+                var candidates = _mapper.Map<List<Candidate>>(candidatesModel);
+                return candidates ?? throw new Exception("Candidates not found");
             }
         }
 

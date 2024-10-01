@@ -1,6 +1,8 @@
-﻿namespace Recruiters.Domain.Entities
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Recruiters.Infraestructure.Models
 {
-    public class CandidateExperience
+    public class CandidateExperienceModel
     {
         public int IdCandidateExperience { get; set; }
         public string Company { get; set; }
@@ -12,6 +14,7 @@
         public DateTime InsertDate { get; set; }
         public DateTime? ModifyDate { get; set; }
         public int IdCandidate { get; set; }
-        public Candidate Candidate { get; set; } = null!;
+        [ForeignKey("IdCandidate")]
+        public CandidateModel Candidate { get; set; } = null!;
     }
 }

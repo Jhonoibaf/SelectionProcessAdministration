@@ -75,8 +75,8 @@
                                     <br />
                                     From: @exp.BeginDate.ToShortDateString() To: @exp.EndDate?.ToShortDateString() ?? "Present"
                                     <br />
-                                    <a asp-action="EditExperience" asp-route-id="@exp.IdCandidateExperience" class="btn btn-sm btn-primary">Edit</a> |
-                                    <a asp-action="DeleteExperience" asp-route-id="@exp.IdCandidateExperience" class="btn btn-sm btn-danger">Delete</a>
+                                    <a asp-controller="CandidateExperiences" asp-action="EditExperience" asp-route-id="@exp.IdCandidateExperience" class="btn btn-sm btn-primary">Edit</a> |
+                                    <a asp-controller="CandidateExperiences" asp-action="DeleteExperience" asp-route-id="@exp.IdCandidateExperience" class="btn btn-sm btn-danger">Delete</a>
                                 </li>
                             }
                         </ul>
@@ -85,7 +85,7 @@
                     {
                         <p>No experiences available.</p>
                     }
-                    <a asp-action="CreateExperience" asp-route-candidateId="@item.IdCandidate" class="btn btn-sm btn-success">Add Experience</a>
+                    <a asp-controller="CandidateExperiences" asp-action="Create" asp-route-candidateId="@item.IdCandidate" class="btn btn-sm btn-success">Add Experience</a>
                 </td>
             </tr>
         }

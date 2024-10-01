@@ -9,7 +9,7 @@
         public string Email { get; set; }
         public DateTime InsertDate { get; set; }
         public DateTime? ModifyDate { get; set; }
-        public ICollection<CandidateExperience> CandidateExperiences { get; set; } = null!;
+        public ICollection<CandidateExperience> CandidateExperiences { get; set; } = new List<CandidateExperience>();
 
         public void Validate()
         {

@@ -44,7 +44,7 @@ namespace Recruiters.Infraestructure.Configurations
                 .IsRequired(false);
             
             builder.HasOne(p => p.Candidate)
-               .WithMany()
+               .WithMany(c => c.CandidateExperiences)
                .HasForeignKey(p => p.IdCandidate)
                .OnDelete(DeleteBehavior.Cascade);
         }

@@ -2,6 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Recruiters.Application.CandidatesAdministration.Commands;
+using Recruiters.Application.DTOs;
+using Recruiters.Application.ExperiencesAdministration.Commands;
 using Recruiters.Domain.Entities;
 using Recruiters.Infraestructure.Data;
 
@@ -36,23 +39,30 @@ namespace SelectionProcessAdministration.Controllers
             return View(candidateExperience);
         }
 
-        public IActionResult Create()
+        public IActionResult Create(int candidateId)
         {
-            ViewData["IdCandidate"] = new SelectList(_context.Candidates, "IdCandidate", "Name");
-            return View();
+            ViewData["IdCandidate"] = new SelectList(_context.Candidates, "IdCandidate", "Name", candidateId);
+            var model = new CandidateExperience
+            {
+                IdCandidate = candidateId
+            };
+
+            return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdCandidateExperience,Company,Job,Description,Salary,BeginDate,EndDate,InsertDate,ModifyDate,IdCandidate")] CandidateExperience candidateExperience)
+        public async Task<IActionResult> Create(CandidateExperienceDto candidateExperienceDto)
         {
-            _context.Add(candidateExperience);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
 
-            //ViewData["IdCandidate"] = new SelectList(_context.Candidates, "IdCandidate", "Email", candidateExperience.IdCandidate);
-            //return View(candidateExperience);
+            if (!ModelState.IsValid)
+            {
+                return View(candidateExperienceDto);
+            }
+            var candidateExperienceCreated = await _mediator.Send(new CreateCandidateExperienceCommand.Command(candidateExperienceDto));
+            return candidateExperienceCreated != null ? RedirectToAction("Index", "Candidates") : View(candidateExperienceCreated);
         }
+
 
         public async Task<IActionResult> Edit(int? id)
         {

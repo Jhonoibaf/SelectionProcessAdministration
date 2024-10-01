@@ -33,7 +33,7 @@ namespace SelectionProcessAdministration.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View(candidate); // Regresa la vista con errores de validación
+                return View(candidate);
             }
             var candidateCreated = await _mediator.Send(new CreateCandidateCommand.Command(candidate));
             return candidateCreated != null ? RedirectToAction(nameof(Index)) : View(candidateCreated);

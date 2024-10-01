@@ -11,11 +11,10 @@ namespace Recruiters.Application.Mappers
         {
             CreateMap<CandidateModel, Candidate>();
             CreateMap<CandidateDto, CandidateModel>()
-                    .ForMember(dest => dest.InsertDate, opt => opt.MapFrom(src => DateTime.Now))
-                    .ForMember(dest => dest.ModifyDate, opt => opt.MapFrom(src => DateTime.Now));
+                    .ForMember(dest => dest.InsertDate, opt => opt.MapFrom(src => DateTime.UtcNow));
             CreateMap<CandidateDto, CandidateModel>()
                 .ForMember(dest => dest.InsertDate, opt => opt.Ignore())
-                .ForMember(dest => dest.ModifyDate, opt => opt.MapFrom(src => DateTime.Now));
+                .ForMember(dest => dest.ModifyDate, opt => opt.MapFrom(src => DateTime.UtcNow));
 
             CreateMap<CandidateExperienceModel, CandidateExperience>();
             CreateMap<CandidateExperienceDto, CandidateExperienceModel>()

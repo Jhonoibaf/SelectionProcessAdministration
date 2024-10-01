@@ -44,41 +44,42 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Company)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Job)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Salary)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BeginDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EndDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.InsertDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ModifyDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Candidate.Email)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.IdCandidateExperience">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IdCandidateExperience">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.IdCandidateExperience">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Company)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Job)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Salary)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BeginDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EndDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InsertDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ModifyDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Candidate.Email)
+                </td>
+                <td>
+                    <a asp-controller="CandidateExperience" asp-action="Edit" asp-route-id="@item.IdCandidateExperience">Edit</a> |
+                    <a asp-controller="CandidateExperience" asp-action="Details" asp-route-id="@item.IdCandidateExperience">Details</a> |
+                    <a asp-controller="CandidateExperience" asp-action="Delete" asp-route-id="@item.IdCandidateExperience">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

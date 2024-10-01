@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Recruiters.Application.CandidatesAdministration.Commands;
 using Recruiters.Application.DTOs;
 using Recruiters.Application.ExperiencesAdministration.Commands;
+using Recruiters.Application.ExperiencesAdministration.Queries;
 using Recruiters.Domain.Entities;
 using Recruiters.Infraestructure.Data;
 
@@ -41,7 +42,7 @@ namespace SelectionProcessAdministration.Controllers
 
         public IActionResult Create(int candidateId)
         {
-            ViewData["IdCandidate"] = new SelectList(_context.Candidates, "IdCandidate", "Name", candidateId);
+            ViewData["IdCandidate"] = candidateId;
             var model = new CandidateExperience
             {
                 IdCandidate = candidateId
@@ -54,63 +55,23 @@ namespace SelectionProcessAdministration.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CandidateExperienceDto candidateExperienceDto)
         {
-
-            if (!ModelState.IsValid)
-            {
-                return View(candidateExperienceDto);
-            }
             var candidateExperienceCreated = await _mediator.Send(new CreateCandidateExperienceCommand.Command(candidateExperienceDto));
             return candidateExperienceCreated != null ? RedirectToAction("Index", "Candidates") : View(candidateExperienceCreated);
         }
 
-
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var candidateExperience = await _context.CandidateExperiences.FindAsync(id);
-            if (candidateExperience == null)
-            {
-                return NotFound();
-            }
-            ViewData["IdCandidate"] = new SelectList(_context.Candidates, "IdCandidate", "Email", candidateExperience.IdCandidate);
+            var candidateExperience = await _mediator.Send(new GetCandidateExperienceByIdQuery.Query(id));
+            ViewData["CandidateName"] = candidateExperience.Candidate.Name;
             return View(candidateExperience);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdCandidateExperience,Company,Job,Description,Salary,BeginDate,EndDate,InsertDate,ModifyDate,IdCandidate")] CandidateExperience candidateExperience)
+        public async Task<IActionResult> EditCandidateExperience(CandidateExperienceDto candidateExperience)
         {
-            if (id != candidateExperience.IdCandidateExperience)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(candidateExperience);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CandidateExperienceExists(candidateExperience.IdCandidateExperience))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["IdCandidate"] = new SelectList(_context.Candidates, "IdCandidate", "Email", candidateExperience.IdCandidate);
-            return View(candidateExperience);
+            var candidateExperienceUpdated = await _mediator.Send(new UpdateCandidateExperienceCommand.Command(candidateExperience));
+            return candidateExperienceUpdated != null ? RedirectToAction("Index", "Candidates") : View(candidateExperienceUpdated);
         }
 
         public async Task<IActionResult> Delete(int? id)

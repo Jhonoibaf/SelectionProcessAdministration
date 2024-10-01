@@ -1,11 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace Recruiters.Infraestructure.Models
+﻿namespace Recruiters.Infraestructure.Models
 {
     public class CandidateModel
     {
         public int IdCandidate { get; set; }
-        [Column("name")]
         public string Name { get; set; }
         public string Surname { get; set; }
         public DateTime Birthdate { get; set; }

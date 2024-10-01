@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Recruiters.Infraestructure.Data;
 
@@ -11,9 +12,11 @@ using Recruiters.Infraestructure.Data;
 namespace Recruiters.Infraestructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241001024719_NewConfigurations")]
+    partial class NewConfigurations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,8 +35,7 @@ namespace Recruiters.Infraestructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdCandidateExperience"));
 
                     b.Property<DateTime>("BeginDate")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("bagin_date");
+                        .HasColumnType("datetime2");
 
                     b.Property<int?>("CandidateModelIdCandidate")
                         .HasColumnType("int");
@@ -51,15 +53,13 @@ namespace Recruiters.Infraestructure.Migrations
                         .HasColumnName("description");
 
                     b.Property<DateTime?>("EndDate")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("end_date");
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("IdCandidate")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("InsertDate")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("insert_date");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Job")
                         .IsRequired()
@@ -68,8 +68,7 @@ namespace Recruiters.Infraestructure.Migrations
                         .HasColumnName("job");
 
                     b.Property<DateTime?>("ModifyDate")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("modify_date");
+                        .HasColumnType("datetime2");
 
                     b.Property<decimal>("Salary")
                         .HasPrecision(8, 2)
@@ -95,8 +94,7 @@ namespace Recruiters.Infraestructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdCandidate"));
 
                     b.Property<DateTime>("Birthdate")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("birthdate");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -105,12 +103,10 @@ namespace Recruiters.Infraestructure.Migrations
                         .HasColumnName("email");
 
                     b.Property<DateTime>("InsertDate")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("insert_date");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("ModifyDate")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("modify_date");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .IsRequired()

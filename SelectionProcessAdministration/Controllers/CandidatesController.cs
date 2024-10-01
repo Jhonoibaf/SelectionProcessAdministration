@@ -31,6 +31,10 @@ namespace SelectionProcessAdministration.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateCandidate(CandidateDto candidate)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(candidate); // Regresa la vista con errores de validación
+            }
             var candidateCreated = await _mediator.Send(new CreateCandidateCommand.Command(candidate));
             return candidateCreated != null ? RedirectToAction(nameof(Index)) : View(candidateCreated);
         }

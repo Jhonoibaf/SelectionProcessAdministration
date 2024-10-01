@@ -4,14 +4,24 @@ using MediatR;
 using Recruiters.Application.CandidatesAdministration.Queries;
 using Recruiters.Infraestructure.Data;
 using Recruiters.Application.Mappers;
+using FluentValidation;
+using MediatR.Extensions.FluentValidation.AspNetCore;
+using Recruiters.Application.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("AplicationDbConection")) 
 );
+
+builder.Services.AddValidatorsFromAssemblyContaining<CandidateDtoValidator>();
+builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(GetCandidateByIdQuery).Assembly));
+
+
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 var app = builder.Build();

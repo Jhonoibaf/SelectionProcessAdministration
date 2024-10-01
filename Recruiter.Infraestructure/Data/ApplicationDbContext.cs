@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Recruiters.Infraestructure.Configurations;
 using Recruiters.Infraestructure.Models;
 
 namespace Recruiters.Infraestructure.Data
@@ -14,17 +15,8 @@ namespace Recruiters.Infraestructure.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<CandidateModel>().HasKey(p => p.IdCandidate);
-            modelBuilder.Entity<CandidateModel>().Property(p => p.Surname).HasMaxLength(150);
-            modelBuilder.Entity<CandidateModel>().Property(p => p.Name).HasMaxLength(50);
-            modelBuilder.Entity<CandidateModel>().Property(p => p.Email).HasMaxLength(250);
-
-            modelBuilder.Entity<CandidateExperienceModel>().HasKey(p => p.IdCandidateExperience);
-            modelBuilder.Entity<CandidateExperienceModel>().Property(p => p.Company).HasMaxLength(100);
-            modelBuilder.Entity<CandidateExperienceModel>().Property(p => p.Job).HasMaxLength(100);
-            modelBuilder.Entity<CandidateExperienceModel>().Property(p => p.Description).HasMaxLength(4000);
-            modelBuilder.Entity<CandidateExperienceModel>().Property(p => p.Salary).HasPrecision(8,2);
+            modelBuilder.ApplyConfiguration(new CandidateConfiguration());
+            modelBuilder.ApplyConfiguration(new CandidateExperienceConfiguration());
         }
-
     }
 }

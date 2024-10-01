@@ -12,8 +12,11 @@ namespace Recruiters.Application.Mappers
             CreateMap<CandidateModel, Candidate>();
             CreateMap<CandidateExperienceModel, CandidateExperience>();
             CreateMap<CandidateDto, CandidateModel>()
-                    .ForMember(dest => dest.InsertDate, opt => opt.Condition((src, dest) => dest.InsertDate == default(DateTime)))
+                    .ForMember(dest => dest.InsertDate, opt => opt.MapFrom(src => DateTime.Now))
                     .ForMember(dest => dest.ModifyDate, opt => opt.MapFrom(src => DateTime.Now));
+            CreateMap<CandidateDto, CandidateModel>()
+            .ForMember(dest => dest.InsertDate, opt => opt.Ignore())
+            .ForMember(dest => dest.ModifyDate, opt => opt.MapFrom(src => DateTime.Now));
         }
     }
 }

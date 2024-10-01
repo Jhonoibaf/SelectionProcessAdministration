@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace Recruiters.Infraestructure.Models
+﻿namespace Recruiters.Infraestructure.Models
 {
     public class CandidateExperienceModel
     {
@@ -14,7 +12,6 @@ namespace Recruiters.Infraestructure.Models
         public DateTime InsertDate { get; set; }
         public DateTime? ModifyDate { get; set; }
         public int IdCandidate { get; set; }
-        [ForeignKey("IdCandidate")]
         public CandidateModel Candidate { get; set; } = null!;
     }
 }

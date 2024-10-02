@@ -1,0 +1,98 @@
+﻿@model IEnumerable<Recruiters.Domain.Entities.Candidate>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Surname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Birthdate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InsertDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ModifyDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Surname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Birthdate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InsertDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ModifyDate)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.IdCandidate">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.IdCandidate">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.IdCandidate">Delete</a>
+                </td>
+            </tr>
+            <tr @* class="collapse" *@ id="collapse-@item.IdCandidate">
+                <td @* colspan="7" *@>
+                    @if (item.CandidateExperiences != null && item.CandidateExperiences.Any())
+                    {
+                        <h4>Experiences</h4>
+                        <ul>
+                            @foreach (var exp in item.CandidateExperiences)
+                            {
+                                <li>
+                                    <strong>@exp.Job</strong> at @exp.Company
+                                    <br />
+                                    From: @exp.BeginDate.ToShortDateString() To: @exp.EndDate?.ToShortDateString() ?? "Present"
+                                    <br />
+                                    <a asp-controller="CandidateExperiences" asp-action="Edit" asp-route-id="@exp.IdCandidateExperience" class="btn btn-sm btn-primary">Edit</a> |
+                                    <a asp-controller="CandidateExperiences" asp-action="Delete" asp-route-id="@exp.IdCandidateExperience" class="btn btn-sm btn-danger">Delete</a>
+                                </li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <p>No experiences available.</p>
+                    }
+                    <a asp-controller="CandidateExperiences" asp-action="Create" asp-route-candidateId="@item.IdCandidate" class="btn btn-sm btn-success">Add Experience</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>s
+}

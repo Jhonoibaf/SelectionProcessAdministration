@@ -5,11 +5,17 @@ VisualStudioVersion = 17.11.35312.102
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SelectionProcessAdministration", "SelectionProcessAdministration\SelectionProcessAdministration.csproj", "{037FA832-10CB-4B94-AB9D-8DF2F44DE315}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recruiters.Domain", "Recruiters.Domain\Recruiters.Domain.csproj", "{38178751-70B6-43DF-B2BA-5ACE00333F6E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Recruiters.Domain", "Recruiters.Domain\Recruiters.Domain.csproj", "{38178751-70B6-43DF-B2BA-5ACE00333F6E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recruiters.Application", "Recruiter.Application\Recruiters.Application.csproj", "{461638CA-044E-4B26-AA02-6B17E02E7AA0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Recruiters.Application", "Recruiter.Application\Recruiters.Application.csproj", "{461638CA-044E-4B26-AA02-6B17E02E7AA0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recruiters.Infraestructure", "Recruiter.Infraestructure\Recruiters.Infraestructure.csproj", "{F4D28D8F-12E8-4333-BDAA-A3E2944F1926}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Recruiters.Infraestructure", "Recruiter.Infraestructure\Recruiters.Infraestructure.csproj", "{F4D28D8F-12E8-4333-BDAA-A3E2944F1926}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Elementos de la solución", "Elementos de la solución", "{A97F01FD-AAFB-4AE3-B0BA-D7908DE9104D}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
+		Dockerfile = Dockerfile
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

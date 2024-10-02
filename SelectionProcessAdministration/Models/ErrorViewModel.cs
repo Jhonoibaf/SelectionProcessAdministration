@@ -1,4 +1,4 @@
-namespace SelecctionPoccesAdministration.Models
+namespace SelectionProcessAdministration.Models
 {
     public class ErrorViewModel
     {

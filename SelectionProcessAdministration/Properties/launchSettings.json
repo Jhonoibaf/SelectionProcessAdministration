@@ -15,7 +15,8 @@
       "launchBrowser": true,
       "applicationUrl": "http://localhost:5188",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ConnectionStrings__AplicationDbConection": "Server=LAPTOP-1J57GK4I\\SQLEXPRESS;Database=SelecctionProcess;Trusted_Connection=True;TrustServerCertificate=True;"
       }
     },
     "https": {

@@ -14,6 +14,7 @@
         <form asp-action="EditCandidateExperience">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="IdCandidateExperience" />
+               <input type="hidden" asp-for="IdCandidate" />
             <div class="form-group">
                 <label asp-for="Company" class="control-label"></label>
                 <input asp-for="Company" class="form-control" />
@@ -55,8 +56,8 @@
                 <span asp-validation-for="ModifyDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label class="control-label">Candidate</label>
-                <input type="text" class="form-control" value="@ViewData["CandidateName"]" readonly />
+              <label class="control-label">Candidate</label>
+                <input type="text" class="form-control" value="@Model.Candidate.Name" readonly />
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

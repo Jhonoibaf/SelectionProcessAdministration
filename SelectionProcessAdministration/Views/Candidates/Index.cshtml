@@ -76,7 +76,7 @@
                                     From: @exp.BeginDate.ToShortDateString() To: @exp.EndDate?.ToShortDateString() ?? "Present"
                                     <br />
                                     <a asp-controller="CandidateExperiences" asp-action="Edit" asp-route-id="@exp.IdCandidateExperience" class="btn btn-sm btn-primary">Edit</a> |
-                                    <a asp-controller="CandidateExperiences" asp-action="DeleteExperience" asp-route-id="@exp.IdCandidateExperience" class="btn btn-sm btn-danger">Delete</a>
+                                    <a asp-controller="CandidateExperiences" asp-action="Delete" asp-route-id="@exp.IdCandidateExperience" class="btn btn-sm btn-danger">Delete</a>
                                 </li>
                             }
                         </ul>

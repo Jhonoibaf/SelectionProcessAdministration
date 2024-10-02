@@ -13,5 +13,10 @@
         public DateTime? ModifyDate { get; set; }
         public int IdCandidate { get; set; }
         public Candidate Candidate { get; set; } = null!;
+
+        public void validator()
+        {
+            
+        }
     }
 }

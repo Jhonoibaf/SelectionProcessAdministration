@@ -11,17 +11,17 @@ namespace Recruiters.Application.Mappers
         {
             CreateMap<CandidateModel, Candidate>();
             CreateMap<CandidateDto, CandidateModel>()
-                    .ForMember(dest => dest.InsertDate, opt => opt.MapFrom(src => DateTime.UtcNow));
+                    .ForMember(dest => dest.InsertDate, opt => opt.MapFrom(src => DateTime.Now));
             CreateMap<CandidateDto, CandidateModel>()
                 .ForMember(dest => dest.InsertDate, opt => opt.Ignore())
-                .ForMember(dest => dest.ModifyDate, opt => opt.MapFrom(src => DateTime.UtcNow));
+                .ForMember(dest => dest.ModifyDate, opt => opt.MapFrom(src => DateTime.Now));
 
             CreateMap<CandidateExperienceModel, CandidateExperience>();
             CreateMap<CandidateExperienceDto, CandidateExperienceModel>()
-                .ForMember(dest => dest.InsertDate, opt => opt.MapFrom(src => DateTime.UtcNow));
+                .ForMember(dest => dest.InsertDate, opt => opt.MapFrom(src => DateTime.Now));
             CreateMap<CandidateExperienceDto, CandidateExperienceModel>()
                 .ForMember(dest => dest.InsertDate, opt => opt.Ignore())
-                .ForMember(dest => dest.InsertDate, opt => opt.MapFrom(src => DateTime.UtcNow));
+                .ForMember(dest => dest.InsertDate, opt => opt.MapFrom(src => DateTime.Now));
 
         }
     }

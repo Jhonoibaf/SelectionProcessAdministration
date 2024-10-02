@@ -62,33 +62,20 @@ namespace SelectionProcessAdministration.Controllers
         public async Task<IActionResult> Edit(int id)
         {
             var candidateExperience = await _mediator.Send(new GetCandidateExperienceByIdQuery.Query(id));
-            ViewData["CandidateName"] = candidateExperience.Candidate.Name;
             return View(candidateExperience);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditCandidateExperience(CandidateExperienceDto candidateExperience)
+        public async Task<IActionResult> EditCandidateExperience(int id, CandidateExperienceDto candidateExperience)
         {
             var candidateExperienceUpdated = await _mediator.Send(new UpdateCandidateExperienceCommand.Command(candidateExperience));
             return candidateExperienceUpdated != null ? RedirectToAction("Index", "Candidates") : View(candidateExperienceUpdated);
         }
 
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var candidateExperience = await _context.CandidateExperiences
-                .Include(c => c.Candidate)
-                .FirstOrDefaultAsync(m => m.IdCandidateExperience == id);
-            if (candidateExperience == null)
-            {
-                return NotFound();
-            }
-
+            var candidateExperience = await _mediator.Send(new GetCandidateExperienceByIdQuery.Query(id));
             return View(candidateExperience);
         }
 
@@ -96,14 +83,8 @@ namespace SelectionProcessAdministration.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var candidateExperience = await _context.CandidateExperiences.FindAsync(id);
-            if (candidateExperience != null)
-            {
-                _context.CandidateExperiences.Remove(candidateExperience);
-            }
-
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            var candidateExperienceDeleted = await _mediator.Send(new DeleteCandidateExperienceCommand.Command(id));
+            return candidateExperienceDeleted != null ? RedirectToAction("Index", "Candidates") : View(candidateExperienceDeleted);
         }
 
         private bool CandidateExperienceExists(int id)

@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using SelecctionPoccesAdministration.Models;
+using SelectionProcessAdministration.Models;
 using System.Diagnostics;
 
-namespace SelecctionPoccesAdministration.Controllers
+namespace SelectionProcessAdministration.Controllers
 {
     public class HomeController : Controller
     {

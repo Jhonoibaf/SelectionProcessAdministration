@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FluentValidation;
+using Recruiters.Application.DTOs;
 
 namespace Recruiters.Application.Validators
 {
-    internal class CandidateExperienceDtoValidator
+    public class CandidateExperienceDtoValidator : AbstractValidator<CandidateExperienceDto>
     {
+        public CandidateExperienceDtoValidator()
+        {
+            
+        }
     }
 }

@@ -1,12 +1,11 @@
 ﻿using AutoMapper;
-using FluentValidation;
-using FluentValidation.Results;
 using MediatR;
 using Recruiters.Application.DTOs;
 using Recruiters.Application.Validators;
 using Recruiters.Domain.Entities;
 using Recruiters.Infraestructure.Data;
 using Recruiters.Infraestructure.Models;
+
 
 namespace Recruiters.Application.CandidatesAdministration.Commands
 {
@@ -27,40 +26,29 @@ namespace Recruiters.Application.CandidatesAdministration.Commands
 
             public async Task<Candidate> Handle(Command request, CancellationToken cancellationToken)
             {
-                try
-                {
                     var validationResult = _validator.Validate(request.Candidate);
                     if (!validationResult.IsValid)
                     {
-                        List<string> errorMessages = [];
-
-                        foreach(ValidationFailure error in validationResult.Errors)
-                        {
-                            errorMessages.Add(error.ErrorMessage);
-                        }
-                        throw new Exception(string.Join(",", errorMessages));
+                        var errorMessages = string.Join(", ", validationResult.Errors.Select(e => e.ErrorMessage));
+                        throw new Exception(errorMessages);
                     }
 
                     var candidate = _mapper.Map<Candidate>(request.Candidate);
                     candidate.Validate();
 
-                    var candidateModel = new CandidateModel();
-                    var candidateToCreate = _mapper.Map(request.Candidate, candidateModel);
+                    var candidateToCreate = _mapper.Map<CandidateModel>(request.Candidate);
                     if (candidateToCreate == null) throw new Exception("Candidate not be create");
 
+                    candidateToCreate.InsertDate = DateTime.Now;
                     _dbcontext.Add(candidateToCreate);
                     await _dbcontext.SaveChangesAsync(cancellationToken);
-                    var candidateCreated = _mapper.Map<Candidate>(candidateToCreate);
-                    return candidateCreated;
-                }
-                catch (Exception ex)
-                {
-                    var message = ex.Message;
-                    throw new Exception($"{message}");
-                }
+
+                    return _mapper.Map<Candidate>(candidateToCreate);
             }
         }
 
         public record Response(Candidate Candidate);
+
+
     }
 }

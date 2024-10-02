@@ -6,22 +6,25 @@ using Recruiters.Infraestructure.Data;
 using Recruiters.Application.Mappers;
 using FluentValidation;
 using MediatR.Extensions.FluentValidation.AspNetCore;
-using Recruiters.Application.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 
+var connectionString = Environment.GetEnvironmentVariable("ConnectionStrings__AplicationDbConection");
+
+if (string.IsNullOrEmpty(connectionString))
+{
+    throw new InvalidOperationException("Connection string not found in environment variables.");
+}
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("AplicationDbConection")) 
+    options.UseSqlServer(String.Format("{0}", connectionString))
 );
 
 builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
 builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
-
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(GetCandidateByIdQuery).Assembly));
-
-
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 var app = builder.Build();
@@ -32,11 +35,11 @@ using (var scope = app.Services.CreateScope())
     dataContext.Database.Migrate();
 }
 
-    if (!app.Environment.IsDevelopment())
-    {
-        app.UseExceptionHandler("/Home/Error");
-        app.UseHsts();
-    }
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Home/Error");
+    app.UseHsts();
+}
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
